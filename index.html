@@ -8,11 +8,53 @@
 </head>
 <body>
     <div class="container">
-        <h1>Generate a<br> Random Password</h1>
+        <h1>Generate a<br><span> Random Password</span></h1>
         <div class="display">
-            <input type="text" id="password" placeholder="Password">
-            <img src="images/copy.png">
+            <input type="text" id="password" placeholder="Password" readonly>
+            <img src="images/copy.png" id="copyBtn" title="Copy to Clipboard">
         </div>
+        <button id="generateBtn">
+            <img src="images/generate.png"> Generate Password
+        </button>
     </div>
+
+    <script>
+        // Selecting Elements
+        const passwordBox = document.getElementById("password");
+        const generateBtn = document.getElementById("generateBtn");
+        const copyBtn = document.getElementById("copyBtn");
+
+        // Password Character Sets
+        const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const lowerCase = "abcdefghijklmnopqrstuvwxyz";
+        const numbers = "1234567890";
+        const symbols = "!@#$%^&*(){}[]/?";
+
+        // Function to Generate Password
+        function createPassword(length = 12) {
+            const allChars = upperCase + lowerCase + numbers + symbols;
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * allChars.length);
+                password += allChars[randomIndex];
+            }
+            passwordBox.value = password;
+        }
+
+        // Function to Copy Password to Clipboard
+        function copyToClipboard() {
+            if (passwordBox.value !== "") {
+                passwordBox.select();
+                document.execCommand("copy");
+                alert("Password Copied to Clipboard!");
+            } else {
+                alert("Generate a password first!");
+            }
+        }
+
+        // Event Listeners
+        generateBtn.addEventListener("click", () => createPassword(12));
+        copyBtn.addEventListener("click", copyToClipboard);
+    </script>
 </body>
 </html>
